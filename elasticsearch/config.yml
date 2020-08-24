@@ -1,0 +1,9 @@
+cluster.name: "docker-cluster"
+# https://github.com/elastic/elasticsearch/issues/40803
+# 这个bug导致下面的设置无效
+cluster.max_shards_per_node: 30000
+
+network.host: 0.0.0.0
+
+xpack.monitoring.collection.enabled: true
+
