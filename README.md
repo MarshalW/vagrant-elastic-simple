@@ -37,7 +37,7 @@ macOS 下都可以通过 Homebrew 安装。
 clone项目：
 
 ```
-
+git clone https://github.com/MarshalW/vagrant-elastic-simple.git
 ```
 
 ### 启动vagrant
