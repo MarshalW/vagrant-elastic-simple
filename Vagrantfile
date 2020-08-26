@@ -1,4 +1,4 @@
-PROXY_URL = 'http://192.168.0.111:1087/'
+PROXY_URL = 'http://192.168.0.133:1087/'
 
 Vagrant.configure('2') do |config|
     # 安装代理服务器，如没有可以屏蔽掉
