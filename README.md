@@ -28,7 +28,12 @@
 - virtualbox
 - vagrant
 
-macOS 下都可以通过 Homebrew 安装。
+macOS 下都可以通过 Homebrew 安装:
+
+```
+brew cask install virtualbox
+brew cask install vagrant
+```
 
 ## 如何使用
 
