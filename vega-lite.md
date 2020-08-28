@@ -85,7 +85,8 @@
   "range": {
     "create_at": {
       "gte": "now-23d/d",
-      "lte": "now-22d"
+      "lt": "now-22d/d",
+      "time_zone": "+08:00"
     }
   }
 }
@@ -120,6 +121,7 @@ vega代码：
             date_histogram: {
               field: action_time
               calendar_interval: 1d
+              time_zone: "+08:00"
               extended_bounds: {
                 max: {%timefilter%: "max"}
               }
