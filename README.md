@@ -132,6 +132,20 @@ $ curl localhost:9200
 docker-compose down
 ```
 
+### 暂时退出和重新加载虚拟机
+
+如果是暂时性的退出虚拟机，可：
+
+```
+vagrant halt
+```
+
+重新加载：
+
+```
+vagrant reload
+```
+
 ### 销毁虚拟机
 
 退出虚拟机，在项目根目录执行命令：
