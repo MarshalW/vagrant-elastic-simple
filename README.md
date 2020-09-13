@@ -58,6 +58,8 @@ cp Vagrantfile.template Vagrantfile
 
 - 取消 `Vagrantfile` 有关代理设置的注释
 - 将 `PROXY_URL = 'http://192.168.0.133:1087/'` 改为你代理的地址
+- 如果使用了代理服务，需要确认代码是否生效，比如可通过命令： `curl cip.cc`
+
 
 启动 vagrant，命令行在项目根目录下执行：
 

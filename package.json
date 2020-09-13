@@ -1,0 +1,20 @@
+{
+    "name": "mock-data",
+    "version": "1.0.0",
+    "main": "index.js",
+    "module": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Marshal Wu <marshal.wu@qq.com>",
+    "license": "ISC",
+    "dependencies": {
+        "@elastic/elasticsearch": "^7.9.0",
+        "commander": "^6.1.0",
+        "delay": "^4.4.0",
+        "esm": "^3.2.25",
+        "nanoid": "^3.1.12"
+    },
+    "devDependencies": {},
+    "description": ""
+}

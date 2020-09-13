@@ -49,3 +49,7 @@ chmod +x /usr/local/bin/docker-compose
 
 # 设置时区
 timedatectl set-timezone Asia/Shanghai
+
+# 安装node.js
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+apt-get install nodejs -y -qq
