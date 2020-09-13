@@ -1,3 +1,8 @@
+/.vagrant
+/ubuntu-bionic-18.04-cloudimg-console.log
+Vagrantfile
+vega-lite.md
+
 # Logs
 logs
 *.log
@@ -114,8 +119,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-/.vagrant
-/ubuntu-bionic-18.04-cloudimg-console.log
-Vagrantfile
-vega-lite.md
