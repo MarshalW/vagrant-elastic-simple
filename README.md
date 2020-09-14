@@ -1,159 +1,130 @@
-# 说明
+# Elasticsearch 实践项目
 
-本示例用于搭建如下实验环境：
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 
-- vagrant+virtualbox
-- docker/docker-compose
-- elasticsearch single node/kibana 7.9
+<!-- code_chunk_output -->
 
-## 前提条件
+- [需提前具备的条件](#需提前具备的条件)
+- [项目执行步骤](#项目执行步骤)
+  - [问题的定义](#问题的定义)
+  - [运行实验环境](#运行实验环境)
+  - [创建索引映射](#创建索引映射)
+  - [生成模拟数据](#生成模拟数据)
+  - [用户留存数据的可视化](#用户留存数据的可视化)
+  - [游戏留存数据的查询和聚合](#游戏留存数据的查询和聚合)
+  - [实现游戏通关率的基本思路](#实现游戏通关率的基本思路)
+- [作为日常研究分析工具使用](#作为日常研究分析工具使用)
 
-### 硬件
+<!-- /code_chunk_output -->
 
-对硬件的要求，内存最好有 16GB。
+希望通过这个项目帮助 Elasticsearch 学习者快速掌握有实践意义的相关的技能。
 
-本项目代码中设置的是使用 6GB。
+本项目将：
 
-如果内存较少，那么需要对本项目的文件做调整
+- 仅需执行几个命令，即可自动创建基于虚拟机的 Elasticsearch/Kibana 实验环境
+- 提出一个严谨、抽象和简化的用户留存问题，这个问题广泛存在于数字化服务的各个领域
+- 给出一个有关上述用户留存问题的 Elasticsearch/Kibana 可视化解决思路、步骤和方案
+- 提供一个基于上述解决方案的大规模用户模拟数据生成工具，便于学习者对性能的评估和理解
 
-- `Vagrantfile`中`vb.memory = "6096"`可适当减少
-- `docker-compose.yml`中`ES_JAVA_OPTS: "-Xms3g -Xmx3g"`需要减少，要少于`vb.memory`，至少留有 1G 内存给系统运行
+## 需提前具备的条件
 
-内存少会造成启动 elasticsearch 缓慢。
+开始使用本项目前，需要具备以下条件：
 
-### 软件
+- 有一台性能较好的台式机/笔记本，主要是内存要尽量大（最少虚拟机需要给 2GB 内存，建议 6GB 以上）
+- 通读过 [Elasticsearch Reference](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html)，并掌握基本的创建索引、查询和聚合命令
+- 通读过[Kibana Guide](https://www.elastic.co/guide/en/kibana/7.9/index.html)，并掌握基本的 Dev Tools、Discover 和 Dashboard 功能的使用
+- 掌握基本的 Vagrant 和 Docker/docker-compose 命令的使用
 
-需要安装：
+## 项目执行步骤
 
-- virtualbox
-- vagrant
-- vagrant-proxyconf，可选，如需在 vagrant vm 中设置 proxy
+### 问题的定义
 
-macOS 下都可以通过 Homebrew 安装:
+首先需要阅读理解[有关用户留存统计问题的定义](./PROBLEM.md)，这里提出了后续需要解决的问题。
 
-```
-brew cask install virtualbox
-brew cask install vagrant
-```
+可以认为这是需求，因为它不包含任何实现技术。
 
-## 如何使用
+### 运行实验环境
 
-### 下载代码
+实验环境包括在 Vagrant/Virtualbox 虚拟机下安装的:
 
-clone 项目：
+- Docker
+- docker-compose
+- 在 docker/docker-compose 下容器
+  - Elasticsearch 7.9
+  - Kibana 7.9
+  - Node.js 14.x
+  - 模拟数据生成工具
 
-```
-git clone https://github.com/MarshalW/vagrant-elastic-simple.git
-```
+在[安装、配置和运行实验环境](./SETUP.md) 给出了完整的创建实验环境的步骤。
 
-### 启动 vagrant
+### 创建索引映射
 
-将`Vagrantfile.template`复制为`Vagrantfile`:
+为了执行后续的 Elasticsearch 查询和聚合，需要为索引显式声明索引映射。
 
-```
-cp Vagrantfile.template Vagrantfile
-```
+详情见[创建索引映射](./CREATE_INDEX_MAPPING.md)。
 
-如需要设置代理：
+### 生成模拟数据
 
-- 取消 `Vagrantfile` 有关代理设置的注释
-- 将 `PROXY_URL = 'http://192.168.0.133:1087/'` 改为你代理的地址
-- 如果使用了代理服务，需要确认代码是否生效，比如可通过命令： `curl cip.cc`
+生成模拟数据的用途可用于：
 
+- 验证统计分析的正确性
+- 评估性能
 
-启动 vagrant，命令行在项目根目录下执行：
+具体步骤见[生成模拟数据](./MOCKDATA.md)
 
-```
-vagrant up
-```
+### 用户留存数据的可视化
 
-将完成：
+针对用户留存数和用户留存率，给出：
 
-- 创建 virtualbox 虚拟机，访问地址为：`192.168.100.10`
-- 给虚拟机安装 docker 和 docker-compose
-- 设置代理服务器到宿主机，加速安装过程
+- 查询和聚合的命令
+- 使用上述命令，结合 Kibana Vega，给出可视化代码
+- 性能分析
 
-### 登录虚拟机
+学习者可生成模拟数据并验证上述命令和可视化的正确性。
 
-ssh 登录到启动完毕的虚拟机，在项目根目录执行命令：
+具体见[用户留存数据的可视化](./USER_RETENTIONS.md)
 
-```
-vagrant ssh
-```
+### 游戏留存数据的查询和聚合
 
-可检查 docker 安装和运行情况：
+针对游戏留存率，给出查询和聚合的命令。
 
-```
-docker ps -a
-```
+学习者可：
 
-### 安装和启动 elasticsearch 和 kibana
+- 根据查询命令，结合 Kibana，自己定制可视化代码
+- 通过模拟数据工具生成所需数据规模数据，并给出性能分析结论
+- 验证查询命令和可视化的正确性
 
-在 vagrant 虚拟机下，切换到/vagrant 目录：
+具体见[游戏留存数据的查询和聚合](./GAME_RETENTION.md)
 
-```
-cd /vagrant
-```
+### 实现游戏通关率的基本思路
 
-然后执行：
+有关通关率，给出编写查询和聚合语句的基本思路，学习者可：
 
-```
-docker-compose up -d
-```
+- 根据基本思路，编写适合的查询和聚合命令
+- 基于查询和聚合命令，结合 Kibana，定制可视化代码
+- 通过模拟数据工具生成所需数据规模数据，并给出性能分析结论
+- 验证查询命令和可视化的正确性
 
-启动完毕后，可检查 elasticsearch 是否正常运行：
+具体见[游戏通关率的基本思路](./GAME_LEVEL.md)
 
-```bash
-$ curl localhost:9200
-{
-  "name" : "d5bd285fdb44",
-  "cluster_name" : "docker-cluster",
-  "cluster_uuid" : "zS8SzcYFSyO-c5ykBxzsiA",
-  "version" : {
-    "number" : "7.9.0",
-    "build_flavor" : "default",
-    "build_type" : "docker",
-    "build_hash" : "a479a2a7fce0389512d6a9361301708b92dff667",
-    "build_date" : "2020-08-11T21:36:48.204330Z",
-    "build_snapshot" : false,
-    "lucene_version" : "8.6.0",
-    "minimum_wire_compatibility_version" : "6.8.0",
-    "minimum_index_compatibility_version" : "6.0.0-beta1"
-  },
-  "tagline" : "You Know, for Search"
-}
-```
+## 作为日常研究分析工具使用
 
-### 访问 kibana
+使用 Elasticsearch 解决一般数据统计分析的过程可总结为：
 
-在浏览器中访问：http://192.168.100.10:5601/
+- 将问题用严谨语言表述和抽象化，转化为数学问题的需求
+- 静态数据建模，主要是形成 Elasticsearch Index Mapping
+- 生成少量模拟数据，可以参照本项目模拟数据工具自行编写实现，或者通过 Kibana Dev Tools 手工加入
+- 编写查询和聚合命令，在 Kibana Dev Tools 执行，并验证执行结果的正确性
+- 使用模拟数据工具生成生产环境所需上限规模的数据，执行查询聚合，评估性能
+- 定制 Kibana Dashboard，使用上述确定的查询和聚合命令
+  - 根据要展示的指标，确定使用哪种 Vitualization 组件形式
+  - 配置 Vitualization 组件，基于查询和聚合命令配置
+  - 如果基本的 Vitualization 组件不能满足需求，可使用 Vitualization Vega，后者有更大的灵活性，覆盖更大的需求
 
-### 退出 elasticsearch/kibana
+使用本项目，可参照上述过程，实现
 
-```
-docker-compose down
-```
-
-### 暂时退出和重新加载虚拟机
-
-如果是暂时性的退出虚拟机，可：
-
-```
-vagrant halt
-```
-
-重新加载：
-
-```
-vagrant reload
-```
-
-### 销毁虚拟机
-
-退出虚拟机，在项目根目录执行命令：
-
-```
-vagrant destroy -f
-```
-
-将清空虚拟机。
+- 在本地使用 Vigrant/Virtualbox 虚拟机的研发工作
+- 本项目可部署在公有云 ECS 上做生产环境的测试和评估
+  - 执行相关脚本安装所需工具，和本地环境一致
+  - 因此，后续过程和命令使用和本地使用也类似
+  - 可通过 VS Code Remote，直接在本地执行 ECS，类似本地的情况
