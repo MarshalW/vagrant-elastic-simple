@@ -3,6 +3,7 @@
 Vagrantfile
 vega-lite.md
 elasticsearch/data
+.env
 
 # Logs
 logs
