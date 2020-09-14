@@ -2,7 +2,7 @@
 /ubuntu-bionic-18.04-cloudimg-console.log
 Vagrantfile
 vega-lite.md
-./elasticsearch/data
+elasticsearch/data
 
 # Logs
 logs
