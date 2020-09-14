@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  elasticsearch:
+    environment:
+      xpack.security.enabled: "true"
+      ELASTIC_PASSWORD: $ELASTIC_PASSWORD
+    ports:
+      - "127.0.0.1:9200:9200"
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+  kibana:
+    environment:
+      ELASTICSEARCH_USERNAME: $ELASTIC_USER
+      ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
+    ports:
+      - 5601:5601
+    #   - "127.0.0.1:5601:5601"

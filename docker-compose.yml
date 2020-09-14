@@ -19,8 +19,6 @@ services:
     volumes:
       - ./elasticsearch/config.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 9200:9200
 
   kibana:
     image: kibana:$ELK_VERSION
@@ -28,8 +26,6 @@ services:
     volumes:
       - ./kibana/config.yml:/usr/share/kibana/config/kibana.yml
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 5601:5601
     environment:
       SERVER_NAME: kibana
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200

@@ -51,6 +51,8 @@ git clone https://github.com/MarshalW/vagrant-elastic-simple.git
 cp ./Vagrantfile.template ./Vagrantfile
 ```
 
+将 `./env` 复制为 `./.env`
+
 ### 对内存的配置
 
 主机的内存应尽量大，否则会造成 Elasticsearch 运行缓慢。
@@ -179,7 +181,7 @@ curl localhost:9200
 
 如果能看到 Kibana 界面就说明可以正常使用了。
 
-因为 Elasticsearch 启动比较慢，可能会有短暂的 `connection reset by peer` 报错。
+因为 Elasticsearch 启动比较慢，Kibana 可能会有短暂的 `Connection refused` 报错。
 
 ## 日常运行
 
@@ -228,5 +230,3 @@ vagrant destroy
 ```properties
 docker logs elasticsearch
 ```
-
-
