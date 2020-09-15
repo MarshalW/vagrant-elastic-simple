@@ -1,5 +1,18 @@
 # 创建数据索引映射
 
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [索引映射](#索引映射)
+- [事件示例](#事件示例)
+
+<!-- /code_chunk_output -->
+
+
+## 索引映射
+
 以下命令可复制到 Kibana Dev Tools 下手工提交。
 
 不过，按照实验项目执行步骤，不必手工提交，因为模拟生成数据脚本里已经包括这个步骤。
@@ -51,3 +64,8 @@ PUT /user-retentions-2020-0914
 - game.first_open 该用户第一次打开这个游戏的时间戳，所有涉及该用户与这个游戏有关的事件都要带这个属性
 - game.retention，该用户 play_game，且玩过的游戏场景>1，有这个属性，而且为 true
 - 以上索引映射支持问题的前两部分，用户留存和游戏留存，未涵盖通关率
+
+
+## 事件示例
+
+TODO
