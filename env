@@ -3,3 +3,5 @@ ELK_VERSION=7.9.0
 ELASTIC_USER=elastic
 ELASTIC_PASSWORD=password
 DEFAULT_NETWORK=my-services
+CERTBOT_EMAIL=robot@company.com
+DOMAIN=server.company.com

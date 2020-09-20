@@ -37,9 +37,9 @@ services:
       - 80:80/tcp
       - 443:443/tcp
     environment:
-      CERTBOT_EMAIL: robot@company.com
+      CERTBOT_EMAIL: $CERTBOT_EMAIL
       ENVSUBST_VARS: FQDN
-      FQDN: server.company.com
+      FQDN: $DOMAIN
     volumes:
       - ./conf.d:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
