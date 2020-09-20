@@ -8,7 +8,6 @@ services:
       discovery.type: single-node
       TAKE_FILE_OWNERSHIP: "true"
       bootstrap.memory_lock: "true"
-      ES_JAVA_OPTS: "-Xms3g -Xmx3g"
     ulimits:
       memlock:
         soft: -1
