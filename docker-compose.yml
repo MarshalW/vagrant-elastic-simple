@@ -29,7 +29,22 @@ services:
     environment:
       SERVER_NAME: kibana
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-
+  frontend:
+    container_name: nginx-certboot
+    restart: unless-stopped
+    image: staticfloat/nginx-certbot
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    environment:
+      CERTBOT_EMAIL: robot@company.com
+      ENVSUBST_VARS: FQDN
+      FQDN: server.company.com
+    volumes:
+      - ./conf.d:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
+volumes:
+    letsencrypt:      
 networks:
   default:
     name: $DEFAULT_NETWORK
