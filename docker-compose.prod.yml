@@ -23,7 +23,14 @@ services:
       - 80:80/tcp
       - 443:443/tcp
     environment:
-      CERTBOT_EMAIL: owner@company.com
+      CERTBOT_EMAIL: pangff@feawin.com
     volumes:
       - ./conf.d:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
+
+volumes:
+    letsencrypt:   
+       
+networks:
+  default:
+    name: $DEFAULT_NETWORK
