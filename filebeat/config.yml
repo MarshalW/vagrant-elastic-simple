@@ -1,0 +1,37 @@
+filebeat:
+  autodiscover.providers:
+    - type: docker
+      templates:
+        - condition.contains:
+            docker.container.image: simple-logger
+          config:
+            - type: container
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+              processors:
+                - decode_json_fields:
+                    fields: ["message"]
+                    target: "event"
+                    overwrite_keys: true
+                - drop_fields:
+                    fields: ["message"]
+
+setup.ilm:
+  enabled: true
+  rollover_alias: "mocklog"
+  policy_file: "ilm.json"
+  policy_name: "mocklog"
+
+setup.template.name: "mocklog-%{[agent.version]}"
+setup.template.pattern: "mocklog-%{[agent.version]}-*"
+setup.template.overwrite: true
+setup.template.fields: "custom.yml"
+
+setup.kibana:
+  host: "${KIBANA_HOST}"
+
+output.elasticsearch:
+  hosts: "${ELASTICSEARCH_HOSTS}"
+  index: "mocklog-%{[agent.version]}-%{+yyyy.MM.dd}"
+
+monitoring.enabled: true

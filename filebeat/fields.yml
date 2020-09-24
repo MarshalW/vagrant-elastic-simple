@@ -1,0 +1,19 @@
+- key: mocklog
+  title: mock log
+  description: >
+    mock log
+  fields:
+    - name: "event.@timestamp"
+      type: date
+    - name: event.user_id
+      type: keyword
+    - name: event.create_at
+      type: date
+    - name: event.type
+      type: keyword
+    - name: event.game.id
+      type: keyword
+    - name: event.game.first_open
+      type: keyword
+    - name: event.game.retention
+      type: boolean
