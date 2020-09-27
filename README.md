@@ -4,6 +4,7 @@
 
 <!-- code_chunk_output -->
 
+- [版本分支](#版本分支)
 - [需提前具备的条件](#需提前具备的条件)
 - [项目执行步骤](#项目执行步骤)
   - [问题的定义](#问题的定义)
@@ -27,11 +28,16 @@
 - 给出一个有关上述用户留存问题的 Elasticsearch/Kibana 可视化解决思路、步骤和方案
 - 提供一个基于上述解决方案的大规模用户模拟数据生成工具，便于学习者对性能的评估和理解
 
+## 版本分支
+
+- [v2.0.0]()，当前版本，演示生产环境下的日志生成，通过 Filebeat 将客户服务器的日志转运到 Elasticsearch，将启动 2 个 VM，其中一个 VM 部署 Filebeat，另一个运行 Elasticsearch/Kibana
+- [v1.0.0](https://github.com/MarshalW/vagrant-elastic-simple/tree/v1.0.0)，最简单的实现，启动 一个 VM，运行 Elasticsearch/Kibana，并生成模拟数据供查询统计评估使用
+
 ## 需提前具备的条件
 
 开始使用本项目前，需要具备以下条件：
 
-- 有一台性能较好的台式机/笔记本，主要是内存要尽量大（最少虚拟机需要给 2GB 内存，建议 6GB 以上）
+- 有一台性能较好的台式机/笔记本，主要是内存要尽量大（至少可以拿出 6GB 物理内存，其中 4GB 用于 Elasticsearch/Kibana 虚拟机，2GB 用于 Filebeat 虚拟机）
 - 通读过 [Elasticsearch Reference](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html)，并掌握基本的创建索引、查询和聚合命令
 - 通读过[Kibana Guide](https://www.elastic.co/guide/en/kibana/7.9/index.html)，并掌握基本的 Dev Tools、Discover 和 Dashboard 功能的使用
 - 掌握基本的 Vagrant 和 Docker/docker-compose 命令的使用
@@ -51,8 +57,8 @@
 - Docker
 - docker-compose
 - 在 docker/docker-compose 下容器
-  - Elasticsearch 7.9
-  - Kibana 7.9
+  - Elasticsearch 7.9.1
+  - Kibana 7.9.1
   - Node.js 14.x
   - 模拟数据生成工具
 
@@ -129,7 +135,6 @@
   - 执行相关脚本安装所需工具，和本地环境一致
   - 因此，后续过程和命令使用和本地使用也类似
   - 可通过 VS Code Remote，直接在本地执行 ECS，类似本地的情况
-
 
 ## 其他
 

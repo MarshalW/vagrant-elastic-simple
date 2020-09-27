@@ -1,5 +1,7 @@
 # 设置环境变量，设置好改名为 .env
-ELK_VERSION=7.9.0
+ELK_VERSION=7.9.1
 ELASTIC_USER=elastic
 ELASTIC_PASSWORD=password
 DEFAULT_NETWORK=my-services
+
+# ELASTIC_SERVER_HOST=localhost
