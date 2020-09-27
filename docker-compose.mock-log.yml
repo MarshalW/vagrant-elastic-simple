@@ -7,8 +7,8 @@ services:
     image: mock-logger
     container_name: mock-logger
     restart: always
-    volumes:
-      - ./mock-logger/config.js:/usr/src/app/lib/config.js
+    # volumes:
+      # - ./mock-logger/config.js:/usr/src/app/lib/config.js
   filebeat:
     image: docker.elastic.co/beats/filebeat:$ELK_VERSION
     container_name: filebeat
