@@ -1,25 +1,13 @@
 import generate from './lib/mock-data-generator'
-import forever from './lib/events-forever'
+import { DYAS_AGO, USER_COUNT, GAME_COUNT } from './lib/config'
 
 
 (async () => {
-    const DYAS_AGO = 365
-    const USER_COUNT = 10000 * 1
-    const GAME_COUNT = 20
+    // const DYAS_AGO = 30
+    // const USER_COUNT = 10000 * 1
+    // const GAME_COUNT = 5
 
-
-    // console.time('all')
-
-    let events = generate(getTimeRange(DYAS_AGO), USER_COUNT, GAME_COUNT)
-
-    for (let event of events) {
-        // await delay(10)
-        console.log(JSON.stringify(event))
-    }
-
-    // console.timeEnd('all')
-
-    await forever()
+    await generate(getTimeRange(DYAS_AGO), USER_COUNT, GAME_COUNT)
 })()
 
 function getTimeRange(daysAgo) {

@@ -3,7 +3,7 @@ filebeat:
     - type: docker
       templates:
         - condition.contains:
-            docker.container.image: simple-logger
+            docker.container.image: mock-logger
           config:
             - type: container
               paths:

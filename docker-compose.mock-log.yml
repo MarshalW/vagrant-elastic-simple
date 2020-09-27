@@ -1,16 +1,20 @@
 version: "3.7"
 
 services:
-  simple_logger:
+  mock_logger:
     build:
-      context: ./simple-logger
-    image: simple-logger
-    container_name: simple-logger
+      context: ./mock-logger
+    image: mock-logger
+    container_name: mock-logger
+    restart: always
+    volumes:
+      - ./mock-logger/config.js:/usr/src/app/lib/config.js
   filebeat:
     image: docker.elastic.co/beats/filebeat:$ELK_VERSION
     container_name: filebeat
     user: root
     network_mode: "host"
+    restart: always
     logging:
       driver: "json-file"
       options:
@@ -29,4 +33,4 @@ services:
       # ELASTICSEARCH_USERNAME: $ELASTIC_USER
       # ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
     command: ["--strict.perms=false", "-e"]
-    restart: on-failure
+    # restart: on-failure

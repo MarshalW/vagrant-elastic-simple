@@ -2,16 +2,13 @@ import { randomBetween } from './utils'
 import userGenerate from './user-generator'
 import gameGegerate from './game-generator'
 import eventsGenerate from './events-generator'
+import forever from './events-forever'
 
-function generate(timeRange, userCount, gameCount, db) {
-    // console.time('prepare user/game data')
+async function generate(timeRange, userCount, gameCount) {
     let users = userGenerate(timeRange, userCount)
     let games = gameGegerate(gameCount)
-    // console.timeEnd('prepare user/game data')
 
     let eventList = []
-
-    // console.time('generate events')
 
     for (const user of users) {
         let game = chooseOneGame(games)
@@ -19,15 +16,13 @@ function generate(timeRange, userCount, gameCount, db) {
         eventList.push(...events)
     }
 
-    // console.timeEnd('generate events')
-
-    // console.time('event sort')
     eventList.sort((a, b) => a['@timestamp'] - b['@timestamp'])
-    // console.timeEnd('event sort')
 
-    // console.log(`all events: ${eventList.length}, users: ${users.length}`)
+    for (let event of eventList) {
+        console.log(JSON.stringify(event))
+    }
 
-    return eventList
+    await forever(users, games)
 }
 
 function chooseOneGame(games) {

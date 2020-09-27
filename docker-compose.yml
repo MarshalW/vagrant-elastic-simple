@@ -4,6 +4,7 @@ services:
   elasticsearch:
     image: elasticsearch:$ELK_VERSION
     container_name: elasticsearch
+    restart: always
     environment:
       discovery.type: single-node
       TAKE_FILE_OWNERSHIP: "true"
@@ -23,6 +24,7 @@ services:
   kibana:
     image: kibana:$ELK_VERSION
     container_name: kibana
+    restart: always
     volumes:
       - ./kibana/config.yml:/usr/share/kibana/config/kibana.yml
       - /etc/localtime:/etc/localtime:ro
