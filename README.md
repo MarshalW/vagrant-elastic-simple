@@ -30,7 +30,7 @@
 
 ## 版本分支
 
-- [v2.0.0]()，当前版本，演示生产环境下的日志生成，通过 Filebeat 将客户服务器的日志转运到 Elasticsearch，将启动 2 个 VM，其中一个 VM 部署 Filebeat，另一个运行 Elasticsearch/Kibana
+- [v2.0.0]( https://github.com/MarshalW/vagrant-elastic-simple/tree/v2.0.0)，当前版本，演示生产环境下的日志生成，通过 Filebeat 将客户服务器的日志转运到 Elasticsearch，将启动 2 个 VM，其中一个 VM 部署 Filebeat，另一个运行 Elasticsearch/Kibana
 - [v1.0.0](https://github.com/MarshalW/vagrant-elastic-simple/tree/v1.0.0)，最简单的实现，启动 一个 VM，运行 Elasticsearch/Kibana，并生成模拟数据供查询统计评估使用
 
 ## 需提前具备的条件
