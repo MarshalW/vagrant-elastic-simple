@@ -4,6 +4,7 @@ Vagrantfile
 vega-lite.md
 elasticsearch/data
 .env
+test.js
 
 # Logs
 logs
