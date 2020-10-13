@@ -31,6 +31,42 @@ services:
     environment:
       SERVER_NAME: kibana
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+  
+  metricbeat_system:
+    image: docker.elastic.co/beats/metricbeat:$ELK_VERSION
+    container_name: metricbeat-elasticserver
+    user: root
+    network_mode: "host"
+    volumes:
+      - ./metricbeat-elasticserver/ilm.json:/usr/share/metricbeat/ilm.json:ro
+      - ./metricbeat-elasticserver/config.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    environment:
+      ELASTICSEARCH_HOSTS: localhost:9200
+      KIBANA_HOST: localhost:5601
+      # ELASTICSEARCH_USERNAME: $ELASTIC_USER
+      # ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    depends_on:
+      - elasticsearch
+  
+  apm:
+    image: docker.elastic.co/apm/apm-server:$ELK_VERSION
+    container_name: apm
+    command: --strict.perms=false -e
+    ports:
+      - "8200:8200"
+    environment:
+      ELASTICSEARCH_HOSTS: "http://localhost:9200"
+    # volumes:
+    #   - "./apm/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro"
+    depends_on:
+      - elasticsearch
 
 networks:
   default:

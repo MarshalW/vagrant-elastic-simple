@@ -8,7 +8,7 @@ services:
     container_name: mock-logger
     restart: always
     # volumes:
-      # - ./mock-logger/config.js:/usr/src/app/lib/config.js
+    # - ./mock-logger/config.js:/usr/src/app/lib/config.js
   filebeat:
     image: docker.elastic.co/beats/filebeat:$ELK_VERSION
     container_name: filebeat
@@ -34,3 +34,75 @@ services:
       # ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
     command: ["--strict.perms=false", "-e"]
     # restart: on-failure
+
+  metricbeat_system:
+    image: docker.elastic.co/beats/metricbeat:$ELK_VERSION
+    container_name: metricbeat-mocklog
+    user: root
+    network_mode: "host"
+    volumes:
+      - ./metricbeat-mocklog/ilm.json:/usr/share/metricbeat/ilm.json:ro
+      - ./metricbeat-mocklog/config.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    environment:
+      ELASTICSEARCH_HOSTS: $ELASTIC_SERVER_HOST:9200
+      KIBANA_HOST: $ELASTIC_SERVER_HOST:5601
+      # ELASTICSEARCH_USERNAME: $ELASTIC_USER
+      # ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+
+  nginx:
+    build:
+      context: ./nginx
+    image: bitnami/nginx
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./nginx/index.html:/app/index.html:ro
+      - ./nginx/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
+      # - ./nginx/my_server_block.conf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf:ro
+    ports:
+      - 80:8080
+
+  # ssh:
+  #   image: frolvlad/alpine-bash
+  #   container_name: ssh
+  #   network_mode: "service:nginx"
+  #   tty: true
+
+  metricbeat_nginx:
+    image: docker.elastic.co/beats/metricbeat:$ELK_VERSION
+    container_name: metricbeat-nginx
+    user: root
+    network_mode: "service:nginx"
+    volumes:
+      - ./metricbeat-nginx/ilm.json:/usr/share/metricbeat/ilm.json:ro
+      - ./metricbeat-nginx/config.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    environment:
+      ELASTICSEARCH_HOSTS: $ELASTIC_SERVER_HOST:9200
+      KIBANA_HOST: $ELASTIC_SERVER_HOST:5601
+      # ELASTICSEARCH_USERNAME: $ELASTIC_USER
+      # ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+
+  mysql:
+    image: mysql:8.0.21
+    container_name: mysql
+    command: 
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306

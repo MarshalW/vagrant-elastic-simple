@@ -10,3 +10,4 @@ COPY . .
 
 # node -r esm app
 CMD [ "node", "-r", "esm","app" ]
+# CMD [ "node", "--max-old-space-size=4096","-r", "esm","app" ]

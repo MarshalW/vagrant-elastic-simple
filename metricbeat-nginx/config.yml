@@ -1,0 +1,42 @@
+# metricbeat.config.modules:
+#   path: ${path.config}/modules.d/*.yml
+#   reload.enabled: false
+
+metricbeat:
+  autodiscover.providers:
+    - type: docker
+      templates:
+        - condition.contains:
+            docker.container.image: "bitnami/nginx"
+          config:
+            - module: nginx
+              metricsets: ["stubstatus"]
+              hosts: ["http://127.0.0.1:8080"]
+              server_status_path: "status"
+
+output.elasticsearch:
+  hosts: "${ELASTICSEARCH_HOSTS}"
+  # username: "${ELASTICSEARCH_USERNAME}"
+  # password: "${ELASTICSEARCH_PASSWORD}"
+  index: "metricbeat-nginx-%{[agent.version]}-%{+yyyy.MM.dd}"
+
+setup.kibana:
+  host: "${KIBANA_HOST}"
+  # username: ${ELASTICSEARCH_USERNAME}
+  # password: ${ELASTICSEARCH_PASSWORD}
+
+setup.dashboards.enabled: true
+
+setup.template.name: "metricbeat-nginx"
+setup.template.pattern: "metricbeat-nginx-*"
+setup.template.overwrite: true
+# setup.template.settings:
+#   index.number_of_shards: 1
+
+monitoring.enabled: true
+
+setup.ilm:
+  enabled: true
+  rollover_alias: "metricbeat-nginx"
+  pattern: "{now/d}-000001"
+  policy_file: "ilm.json"
