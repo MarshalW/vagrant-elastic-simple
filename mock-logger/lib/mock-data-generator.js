@@ -24,6 +24,20 @@ async function generate(timeRange, userCount, gameCount) {
 
     await db.run('CREATE INDEX idx_cache_time ON history (time)')
 
+    let result = await db.get("SELECT COUNT(*) AS count FROM history")
+    const count = result.count
+
+    if (count > 0) {
+        // console.log(`count: ${count}`)
+        const stmt = await db.prepare('SELECT content FROM history order by time asc limit ? offset ?')
+        for (let i = 0; i < count; i += 1000) {
+            result = await stmt.all(1000, i)
+            for (let r of result) {
+                console.log(r.content)
+            }
+        }
+    }
+
     // let eventList = []
 
     // map ['2020-01-01',[events], ..]
@@ -60,7 +74,7 @@ async function generate(timeRange, userCount, gameCount) {
     //     }
     // }
 
-    // await forever(users, games)
+    await forever(users, games)
 }
 
 function chooseOneGame(games) {
