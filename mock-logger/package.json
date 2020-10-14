@@ -11,6 +11,8 @@
   "dependencies": {
     "delay": "^4.4.0",
     "esm": "^3.2.25",
-    "nanoid": "^3.1.12"
+    "nanoid": "^3.1.12",
+    "sqlite": "^4.0.15",
+    "sqlite3": "^5.0.0"
   }
 }
